@@ -11,13 +11,26 @@ def blog_view(request):
 def single_view(request,pid):
     
     posts = Post.objects.get(id=pid,status=1)
-    context= {"posts": posts }
+    navigator = Post.objects.values_list('id')
+    listi = []
+    ind = 0
+    counter = 0
+    for i in navigator:
+        listi.append(i[0])
+        if pid == i[0]:
+            ind = counter
+        counter+=1
+    if ind+1 > len(listi)-1:
+        perv = listi[ind-1]
+        context= {"posts": posts,"next":None,"perv":perv }
+    elif ind-1 < 0 :
+        next = listi[ind+1]
+        context= {"posts": posts,"next":next,"perv":None }
+    else:
+        next = listi[ind+1]
+        perv = listi[ind-1]
+        context= {"posts": posts,"next":next,"perv":perv }
     return render(request, "blog/blog-single.html",context)
 
-def test(request,pid):
-    
-    posts = Post.objects.get(id=pid)
-    posts.counted_view += 1
-    posts.save(update_fields=("counted_view",))
-    context = {'posts':posts}
-    return render(request, "test.html",context,)
+def test(request):
+    return render(request, "test.html")
