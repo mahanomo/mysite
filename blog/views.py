@@ -32,5 +32,6 @@ def single_view(request,pid):
         context= {"posts": posts,"next":next,"perv":perv }
     return render(request, "blog/blog-single.html",context)
 
+
 def test(request):
     return render(request, "test.html")
