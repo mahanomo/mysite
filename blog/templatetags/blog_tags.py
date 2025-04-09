@@ -1,5 +1,5 @@
 from django import template
-from blog.models import Post
+from blog.models import Post,Category
 register = template.Library()
 
 @register.simple_tag
@@ -14,3 +14,12 @@ def latest_posts():
     posts = Post.objects.filter(status='True')[:3]
     return {'posts':posts}
 
+@register.inclusion_tag("blog/blog-cat.html")
+def postcat():
+    posts = Post.objects.filter(status='True')
+    categories = Category.objects.all()
+    dicti = {}
+    for cat in categories :
+        dicti[cat] = posts.filter(category=cat).count()
+        
+    return {'categoies':dicti}
