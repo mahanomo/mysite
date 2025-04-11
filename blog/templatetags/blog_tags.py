@@ -22,4 +22,4 @@ def postcat():
     for cat in categories :
         dicti[cat] = posts.filter(category=cat).count()
         
-    return {'categoies':dicti}
+    return {'dicti':dicti}
