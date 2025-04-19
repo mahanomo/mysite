@@ -38,12 +38,17 @@
           <div class="row align-items-center">
             <div class="col-lg-6 col-sm-6 col-6 header-top-left">
               <ul>
+                {% if request.user.is_authenticated %}
+                  <a href="">Logged in as {{request.user.username}}</a>
+                  <a href="{% url 'accounts:logout' %}"> Logout</a>
+                {% else %}
                 <li>
-                  <a href="#">Visit Us</a>
+                  <a href="{% url 'accounts:login' %}">Login</a>
                 </li>
                 <li>
-                  <a href="#">Buy Tickets</a>
+                  <a href="{% url 'accounts:signup' %}">Signup</a>
                 </li>
+                {% endif %}
               </ul>
             </div>
             <div class="col-lg-6 col-sm-6 col-6 header-top-right">
@@ -142,11 +147,12 @@
             <div class="single-footer-widget">
               <h6>Newsletter</h6>
               <p>For business professionals caught between high OEM price and mediocre print and graphic output.</p>
-              <div id="mc_embed_signup">
-                <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-                  <div class="input-group d-flex flex-row">
-                    <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email" />
-                    <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
+              <div >
+                <form  action="{% url 'website:newsletter' %}" method="post" class="subscription relative">
+                  {% csrf_token %}
+                  <div>
+                    <input name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email" />
+                    <button type="submit" class="btn bb-btn"><span class="lnr lnr-location"></span></button>
                   </div>
                   <div class="mt-10 info"></div>
                 </form>

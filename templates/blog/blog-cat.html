@@ -1,7 +1,7 @@
 <ul class="cat-list">
   {% for name, cat in dicti.items %}
     <li>
-      <a href="#" class="d-flex justify-content-between">
+      <a href="{% url 'blog:category' cat_name=name %}" class="d-flex justify-content-between">
         <p>{{ name }}</p>
         <p>{{ cat }}</p>
       </a>
