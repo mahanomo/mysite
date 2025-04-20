@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load website_tags %}
+{% load humanize %}
 {% block content %}
 <!-- start banner Area -->
 <section class="banner-area relative">
@@ -163,22 +164,21 @@
         {% for post in posts %}
         <div class="single-recent-blog-post item">
           <div class="thumb">
-            <img class="img-fluid" src="{% static 'img/b1.jpg' %}" alt="" />
+            <img class="img-fluid" src="{{post.image.url}}" alt="" />
           </div>
           <div class="details">
             <div class="tags">
               <ul>
+                {% for cat in post.category.all %}
                 <li>
-                  <a href="#">Travel</a>
+                  <a href="{% url 'blog:category' cat_name=cat.name %}">{{cat}}</a>
                 </li>
-                <li>
-                  <a href="#">Life Style</a>
-                </li>
+                {% endfor %}
               </ul>
             </div>
-            <a href="#"><h4 class="title">{{post}}</h4></a>
-            <p>Acres of Diamonds… you’ve read the famous story, or at least had it related to you. A farmer.</p>
-            <h6 class="date">31st January,2018</h6>
+            <a href="{% url 'blog:single' pid=post.id %}"><h4 class="title">{{post}}</h4></a>
+            <p>{{post.content|truncatewords:20}}</p>
+            <h6 class="date">{{post.created_date|naturaltime}}</h6>
           </div>
         </div>
         {% endfor %} 

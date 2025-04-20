@@ -1,9 +1,11 @@
 from django.shortcuts import render,HttpResponseRedirect
 from .form import ContactForm,NewsletterForm
 from django.contrib import messages
+from blog.models import Post
 
 def index_view(request):
-    return render(request, "website/index.html")
+    posts = Post.objects.filter(status=True)[:3]
+    return render(request, "website/index.html",{'posts':posts})
 
 def Newsletter_view(request):
 
